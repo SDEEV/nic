@@ -1,31 +1,21 @@
 #![no_std]
 #![no_main]
 
-use core::borrow::Borrow;
-use core::borrow::BorrowMut;
 use core::cell::RefCell;
-use core::ops::Deref;
 use cortex_m::asm;
 use cortex_m::interrupt::free;
 use cortex_m::interrupt::Mutex;
 use cortex_m_rt::entry;
-use hal::delay::Delay;
 use hal::prelude::*;
 use hal::stm32;
-use hal::time::Hertz;
+use panic_halt as _;
 use stm32f0xx_hal as hal;
 use stm32f0xx_hal::gpio::gpioa::PA5;
 use stm32f0xx_hal::gpio::Output;
 use stm32f0xx_hal::gpio::PushPull;
 use stm32f0xx_hal::pac::interrupt;
 use stm32f0xx_hal::pac::TIM3;
-use stm32f0xx_hal::serial::Event;
 use stm32f0xx_hal::timers::Timer;
-// pick a panicking behavior
-use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch panics
-                     // use panic_abort as _; // requires nightly
-                     // use panic_itm as _; // logs messages over ITM; requires ITM support
-                     // use panic_semihosting as _; // logs messages to the host stderr; requires a debugger
 
 static TIMER: Mutex<RefCell<Option<Timer<TIM3>>>> = Mutex::new(RefCell::new(None));
 static LED: Mutex<RefCell<Option<PA5<Output<PushPull>>>>> = Mutex::new(RefCell::new(None));
