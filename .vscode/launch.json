@@ -26,6 +26,7 @@
                 "openocd.cfg"
             ],
             "svdFile": "${workspaceRoot}/.vscode/STM32F030.svd",
+            
         }
     ]
 }
