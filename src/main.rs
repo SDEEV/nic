@@ -1,16 +1,13 @@
 #![no_std]
 #![no_main]
 
-use cortex_m::asm;
 use cortex_m::interrupt::free;
 use cortex_m_rt::entry;
 use hal::delay::Delay;
 use hal::prelude::*;
 use hal::stm32;
 use stm32f0xx_hal as hal;
-use stm32f0xx_hal::pac::ITM;
 // pick a panicking behavior
-use cortex_m::iprintln;
 use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch panics
                      // use panic_abort as _; // requires nightly
                      // use panic_itm as _; // logs messages over ITM; requires ITM support
@@ -19,7 +16,7 @@ use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch
 #[entry]
 fn main() -> ! {
     let mut p = stm32::Peripherals::take().unwrap();
-    let mut cp = cortex_m::Peripherals::take().unwrap();
+    let cp = cortex_m::Peripherals::take().unwrap();
 
     let mut rcc = p.RCC.configure().sysclk(48.mhz()).freeze(&mut p.FLASH);
 
